@@ -1,57 +1,52 @@
 package com.techproed.schoolmanagementbackendb326.entity.concretes.business;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.techproed.schoolmanagementbackendb326.entity.concretes.user.User;
-import com.techproed.schoolmanagementbackendb326.entity.enums.Day;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class LessonProgram {
-
-    //cntrl shift v copy yapar
+public class Meet {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Enumerated(EnumType.STRING)
-    private Day day;
+    private String description;
+
+    @JsonFormat(shape =JsonFormat.Shape.STRING,pattern = "yyyy-MM-dd")
+    private LocalDate date;
+
     @JsonFormat(shape =JsonFormat.Shape.STRING,pattern = "HH:mm",timezone = "US")
     private LocalTime startTime;
     @JsonFormat(shape =JsonFormat.Shape.STRING,pattern = "HH:mm",timezone = "US")
     private LocalTime stopTime;
+
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    private User advisoryTeacher;
+
+
     @ManyToMany
     @JoinTable(
-            name = "lesson_program_lesson",
-            joinColumns = @JoinColumn(name = "lessonprogram_id"),
-            inverseJoinColumns = @JoinColumn(name = "lesson_id")
+            name = "meet_student_table",
+    joinColumns = @JoinColumn(name = "meet_id"),
+    inverseJoinColumns = @JoinColumn(name = "student_id")
     )
-    private Set<Lesson> lessons;
+    private List<User>studentList;
 
 
-    @ManyToOne
-    private EducationTerm educationTerm;
-
-    @JsonIgnore
-    @ManyToMany(mappedBy = "lessonProgramList",fetch =FetchType.EAGER)
-    private Set<User>users;
 
 
-    @PreRemove
-    private void removeLessonFromUser(){
-        users.forEach(user -> user.getLessonProgramList().remove(this));
 
-    }
 
 }
