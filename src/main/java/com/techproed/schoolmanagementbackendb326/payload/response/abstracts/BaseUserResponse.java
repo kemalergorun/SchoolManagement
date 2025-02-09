@@ -22,7 +22,7 @@ public abstract class BaseUserResponse {
 
     private String surname;
 
-    private LocalDate birthday;
+    private LocalDate birthDay;
 
     private String ssn;
 
