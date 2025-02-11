@@ -4,6 +4,7 @@ import com.techproed.schoolmanagementbackendb326.entity.concretes.user.User;
 import com.techproed.schoolmanagementbackendb326.payload.mappers.UserMapper;
 import com.techproed.schoolmanagementbackendb326.payload.messages.SuccessMessages;
 import com.techproed.schoolmanagementbackendb326.payload.request.user.UserRequest;
+import com.techproed.schoolmanagementbackendb326.payload.request.user.UserRequestWithoutPassword;
 import com.techproed.schoolmanagementbackendb326.payload.response.abstracts.BaseUserResponse;
 import com.techproed.schoolmanagementbackendb326.payload.response.business.ResponseMessage;
 import com.techproed.schoolmanagementbackendb326.payload.response.user.UserResponse;
@@ -17,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.stream.Collectors;
 
@@ -100,4 +102,23 @@ public class UserService {
     }
 
 
+    public String updateLoggedInUser(@Valid UserRequestWithoutPassword userRequestWithoutPassword, HttpServletRequest httpServletRequest) {
+
+        String username= (String) httpServletRequest.getAttribute("username");
+        User user=userRepository.findByUsername(username);
+        methodHelper.checkBuildIn(user);
+        uniquePropertyValidator.checkUniqueProperty(user,userRequestWithoutPassword);
+        user.setName(userRequestWithoutPassword.getName());
+        user.setSurname(userRequestWithoutPassword.getSurname());
+        user.setSsn(userRequestWithoutPassword.getSsn());
+        user.setUsername(userRequestWithoutPassword.getUsername());
+        user.setBirthday(userRequestWithoutPassword.getBirthDay());
+        user.setBirthplace(userRequestWithoutPassword.getBirthPlace());
+        user.setGender(userRequestWithoutPassword.getGender());
+        user.setEmail(userRequestWithoutPassword.getEmail());
+        user.setPhoneNumber(userRequestWithoutPassword.getPhoneNumber());
+        userRepository.save(user);
+        return SuccessMessages.USER_UPDATE;
+
+    }
 }
