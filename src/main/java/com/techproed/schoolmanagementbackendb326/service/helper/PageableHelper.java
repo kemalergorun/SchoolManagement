@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class PageableHelper {
-    public Pageable getPageable(int page,int size,String sort,String type){
-        return PageRequest.of(page,size, Sort.by(sort,type));
+    public Pageable getPageable(int page, int size, String sort, String type) {
+        return PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(type), sort));
     }
 }

@@ -84,4 +84,20 @@ public class UserService {
 
 
     }
+    public ResponseMessage<UserResponse>updateUserById(UserRequest userRequest,Long userId){
+        User userFromDb=methodHelper.isUserExist(userId);
+        methodHelper.checkBuildIn(userFromDb);
+        uniquePropertyValidator.checkUniqueProperty(userFromDb,userRequest);
+
+        User userToSave=userMapper.mapUserRequestToUser(userRequest,userFromDb.getUserRole().getRoleName());
+        userToSave.setId(userId);
+        User savedUser=userRepository.save(userToSave);
+        return ResponseMessage.<UserResponse>builder()
+                .message(SuccessMessages.USER_UPDATE)
+                .httpStatus(HttpStatus.OK)
+                .returnBody(userMapper.mapUserToUserResponse(savedUser))
+                .build();
+    }
+
+
 }
