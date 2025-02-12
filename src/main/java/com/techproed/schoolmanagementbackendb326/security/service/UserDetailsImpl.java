@@ -23,15 +23,16 @@ public class UserDetailsImpl implements UserDetails {
     private String password;
 
     private List<GrantedAuthority>authorities;
-    public UserDetailsImpl(String username, Long id, String password, String role) {
-        this.username = username;
-        this.id = id;
-        this.password = password;
-        List<GrantedAuthority>authorities=new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(role));
-        this.authorities=authorities;
-    }
 
+    public UserDetailsImpl(Long id, String username, String password,
+                           String role) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(role));
+        this.authorities = authorities;
+    }
 
     @Override
     public String getUsername() {

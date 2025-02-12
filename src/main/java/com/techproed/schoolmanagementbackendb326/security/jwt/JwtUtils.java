@@ -1,9 +1,11 @@
 package com.techproed.schoolmanagementbackendb326.security.jwt;
 
+import com.techproed.schoolmanagementbackendb326.security.service.UserDetailsImpl;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -20,9 +22,21 @@ public class JwtUtils {
     @Value("${backendapi.app.jwtSecret}")
     private String jwtSecret;
 
+    public String generateToken(Authentication authentication){
+        UserDetailsImpl userDetails=(UserDetailsImpl) authentication.getPrincipal();
+        return buildTokenFromUsername(userDetails.getUsername());
+    }
 
 
-    private String buildTokenFromUsername(String username){
+
+
+
+
+
+
+
+
+    public String buildTokenFromUsername(String username){
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
@@ -52,7 +66,7 @@ public class JwtUtils {
 
 
 
-    private String getUsernameFromToken(String token) {
+    public String getUsernameFromToken(String token) {
         return Jwts.parser()
                 .setSigningKey(jwtSecret)
                 .parseClaimsJws(token)

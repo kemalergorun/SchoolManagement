@@ -14,10 +14,6 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
     private final MethodHelper methodHelper;
 
-
-
-    private final MethodHelper methodHelper;
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = methodHelper.loadByUsername(username);
