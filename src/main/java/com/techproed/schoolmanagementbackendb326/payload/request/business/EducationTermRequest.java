@@ -1,4 +1,4 @@
-package com.techproed.schoolmanagementbackendb326.payload.business;
+package com.techproed.schoolmanagementbackendb326.payload.request.business;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.techproed.schoolmanagementbackendb326.entity.enums.Term;
