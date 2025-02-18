@@ -123,4 +123,10 @@ public class EducationTermService {
                 .httpStatus(HttpStatus.OK)
                 .build();
     }
+
+    public EducationTermResponse getEducationTermById(Long educationTermId){
+        EducationTerm educationTerm = isEducationTermExist(educationTermId);
+        return educationTermMapper.mapEducationTermToEducationTermResponse(educationTerm);
+
+    }
 }

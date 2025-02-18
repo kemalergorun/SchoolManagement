@@ -43,8 +43,8 @@ public class EducationTermController {
     @PreAuthorize("hasAnyAuthority('Admin','Dean','ViceDean','Teacher')")
     @GetMapping("/{educationTermId}")
     public EducationTermResponse getEducationTerm(Long educationTermId){
-        // return educationTermService.getEducationTermById(educationTermId);
-        return null;
+         return educationTermService.getEducationTermById(educationTermId);
+
 
     }
     @PreAuthorize("hasAnyAuthority('Admin','Dean','ViceDean','Teacher')")
