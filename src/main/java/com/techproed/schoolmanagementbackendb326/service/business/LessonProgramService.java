@@ -77,6 +77,8 @@ public class LessonProgramService {
     }
 
     public List<LessonProgramResponse> getAllLessonPrograms() {
-        return null;
+        List<LessonProgram> allLessonPrograms = lessonProgramRepository.findAll();
+        return allLessonPrograms.stream().map(lessonProgramMapper::mapLessonProgramToLessonProgramResponse).collect(Collectors.toList());
     }
+
 }
