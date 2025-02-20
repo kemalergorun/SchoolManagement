@@ -18,6 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -46,6 +47,7 @@ public class LessonService {
         if (lessonRepository.findByLessonNameEqualsIgnoreCase(lessonName).isPresent()){
             throw new ConflictException(String.format(ErrorMessages.ALREADY_CREATED_LESSON_MESSAGE,lessonName));
         }
+
 
 
 
@@ -84,9 +86,42 @@ public class LessonService {
     }
 
 
-    public Set<Lesson> getAllByIdSet(Set<Long> idSet) {
+    public List<Lesson> getAllByIdSet(List<Long> idSet) {
         return idSet.stream()
                 .map(this::isLessonExistById)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
+    public ResponseMessage<LessonResponse> deleteLesson(Long lessonId) {
+
+        return ResponseMessage.<LessonResponse>builder()
+                .returnBody(lessonMapper.mapLessonToLessonResponse(deleteLessonById(lessonId)))
+                .httpStatus(HttpStatus.OK)
+                .message(SuccessMessages.LESSON_DELETE)
+                .build();
+    }
+    private Lesson deleteLessonById(Long lessonId) {
+        Lesson lesson = lessonRepository.findById(lessonId)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        String.format(ErrorMessages.NOT_FOUND_LESSON_MESSAGE, lessonId)));
+        lessonRepository.delete(lesson);
+        return lesson;
+    }
+    public ResponseMessage<LessonResponse> findLessonByName(String lessonName) {
+        return ResponseMessage.<LessonResponse>builder()
+                .message(SuccessMessages.LESSON_FOUND)
+                .returnBody(lessonMapper.mapLessonToLessonResponse(getLessonByName(lessonName)))
+                .httpStatus(HttpStatus.OK)
+                .build();
+    }
+    private Lesson getLessonByName(String lessonName) {
+        return lessonRepository.findByLessonNameEqualsIgnoreCase(lessonName)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        String.format(ErrorMessages.NOT_FOUND_LESSON_IN_LIST, lessonName)));
+    }
+
+
+
+
+
+
 }
