@@ -21,6 +21,12 @@ public class MethodHelper {
             String.format(ErrorMessages.NOT_FOUND_USER_MESSAGE, id)));
   }
 
+  public void checkisAdvisor(User user){
+    if (!user.getIsAdvisor()){
+      throw new BadRequestException(String.format(ErrorMessages.NOT_FOUND_ADVISOR_MESSAGE,user.getUsername()));
+    }
+  }
+
   public void checkBuildIn(User user) {
     if(user.getBuildIn()){
       throw new BadRequestException(ErrorMessages.NOT_PERMITTED_METHOD_MESSAGE);

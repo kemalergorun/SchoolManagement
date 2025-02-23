@@ -1,6 +1,7 @@
 package com.techproed.schoolmanagementbackendb326.controller.user;
 
 
+import com.techproed.schoolmanagementbackendb326.entity.concretes.user.User;
 import com.techproed.schoolmanagementbackendb326.payload.request.user.UserRequest;
 import com.techproed.schoolmanagementbackendb326.payload.request.user.UserRequestWithoutPassword;
 import com.techproed.schoolmanagementbackendb326.payload.response.abstracts.BaseUserResponse;
@@ -77,6 +78,7 @@ public class UserController {
       HttpServletRequest httpServletRequest){
     return ResponseEntity.ok(userService.updateLoggedInUser(userRequestWithoutPassword,httpServletRequest));
   }
+
 
 
 
