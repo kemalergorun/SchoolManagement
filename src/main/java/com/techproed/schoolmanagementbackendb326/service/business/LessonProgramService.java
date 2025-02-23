@@ -3,7 +3,9 @@ package com.techproed.schoolmanagementbackendb326.service.business;
 import com.techproed.schoolmanagementbackendb326.entity.concretes.business.EducationTerm;
 import com.techproed.schoolmanagementbackendb326.entity.concretes.business.Lesson;
 import com.techproed.schoolmanagementbackendb326.entity.concretes.business.LessonProgram;
+import com.techproed.schoolmanagementbackendb326.exception.BadRequestException;
 import com.techproed.schoolmanagementbackendb326.payload.mappers.LessonProgramMapper;
+import com.techproed.schoolmanagementbackendb326.payload.messages.ErrorMessages;
 import com.techproed.schoolmanagementbackendb326.payload.messages.SuccessMessages;
 import com.techproed.schoolmanagementbackendb326.payload.request.business.LessonProgramRequest;
 import com.techproed.schoolmanagementbackendb326.payload.response.business.LessonProgramResponse;
@@ -79,6 +81,14 @@ public class LessonProgramService {
     public List<LessonProgramResponse> getAllLessonPrograms() {
         List<LessonProgram> allLessonPrograms = lessonProgramRepository.findAll();
         return allLessonPrograms.stream().map(lessonProgramMapper::mapLessonProgramToLessonProgramResponse).collect(Collectors.toList());
+    }
+    public List<LessonProgram>getLessonProgramById(List<Long>lessonIdList){
+        List<LessonProgram>lessonProgramList= lessonProgramRepository.findAllById(lessonIdList);
+        if (lessonProgramList.isEmpty()){
+            throw new BadRequestException(ErrorMessages.NOT_FOUND_LESSON_PROGRAM_MESSAGE);
+
+        }
+        return lessonProgramList;
     }
 
 }
