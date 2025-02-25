@@ -118,6 +118,7 @@ public class StudentService {
                 lessonProgramService.getLessonProgramById(addLessonProgramForStudent.getLessonProgramId());
         List<LessonProgram>studentLessonProgram=loggedInUser.getLessonProgramList();
         studentLessonProgram.addAll(lessonProgramFromDTO);
+        return null;
 
 
 
