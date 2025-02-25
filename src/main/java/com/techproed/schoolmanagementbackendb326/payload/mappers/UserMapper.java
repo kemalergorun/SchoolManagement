@@ -5,6 +5,7 @@ import com.techproed.schoolmanagementbackendb326.entity.enums.RoleType;
 import com.techproed.schoolmanagementbackendb326.exception.ResourceNotFoundException;
 import com.techproed.schoolmanagementbackendb326.payload.messages.ErrorMessages;
 import com.techproed.schoolmanagementbackendb326.payload.request.abstracts.BaseUserRequest;
+import com.techproed.schoolmanagementbackendb326.payload.request.user.StudentUpdateRequest;
 import com.techproed.schoolmanagementbackendb326.payload.request.user.UserRequest;
 import com.techproed.schoolmanagementbackendb326.payload.response.abstracts.BaseUserResponse;
 import com.techproed.schoolmanagementbackendb326.payload.response.user.StudentResponse;
@@ -108,5 +109,22 @@ public class UserMapper {
             .isActive(student.isActive())
             .build();
   }
+  public User mapStudentUpdateRequestToUser(StudentUpdateRequest studentUpdateRequest){
+    return User.builder()
+            .username(studentUpdateRequest.getUsername())
+            .name(studentUpdateRequest.getName())
+            .ssn(studentUpdateRequest.getSsn())
+            .userRole(userRoleService.getUserRole(RoleType.STUDENT))
+            .surname(studentUpdateRequest.getSurname())
+            .birthday(studentUpdateRequest.getBirthDay())
+            .birthplace(studentUpdateRequest.getBirthPlace())
+            .phoneNumber(studentUpdateRequest.getPhoneNumber())
+            .gender(studentUpdateRequest.getGender())
+            .email(studentUpdateRequest.getEmail())
+            .fatherName(studentUpdateRequest.getFatherName())
+            .motherName(studentUpdateRequest.getMotherName())
+            .build();
+  }
+
 
 }
